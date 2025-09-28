@@ -7,3 +7,7 @@ TẠO SOLUTION GỒM CÁC PROJECT SAU:
 4. Web đơn giản, bắt buộc sử dụng .NET Framework 2.0, sử dụng web server là IIS, dùng file hosts để tự tạo domain, gắn domain này vào iis, file index.html có sử dụng html css js để xây dựng giao diện nhập được các input cho bài toán, dùng mã js để tiền xử lý dữ liệu, js để gửi lên backend. backend là api.aspx, trong code của api.aspx.cs thì lấy được các input mà js gửi lên, rồi sử dụng được DLL đa năng trên. kết quả gửi lại json cho client, js phía client sẽ nhận được json này hậu xử lý để thay đổi giao diện theo dữ liệu nhận dược, phải có dấu án cá nhân. keyword: c# window web => ASP.NET Web Application (.NET Framework) + tham khảo link chatgpt thầy gửi. project web này biên dịch ra DLL, phải kết hợp với IIS mới chạy được.  
 # BÀI LÀM
 1) DLL — QuadraticSolverLib (Class Library .NET 2.0)
+<img width="1916" height="1070" alt="image" src="https://github.com/user-attachments/assets/44a2d11a-9750-442e-aa49-5e5acc87ea56" />
+<img width="1911" height="1063" alt="image" src="https://github.com/user-attachments/assets/8c6ed7de-edb2-4499-8c9e-e0a8589ded87" />
+<img width="1911" height="972" alt="image" src="https://github.com/user-attachments/assets/d19921e2-1f9e-4783-9fe2-127e646f9de5" />
+<img width="1919" height="1063" alt="image" src="https://github.com/user-attachments/assets/3813483f-b874-4700-926a-c9bf345ea9ea" />
