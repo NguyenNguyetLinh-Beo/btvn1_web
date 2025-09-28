@@ -1,0 +1,183 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>✨ Giải phương trình bậc 2 ✨</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      color: #333;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.25);
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 420px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      font-size: 28px;
+      background: linear-gradient(90deg, #43cea2, #185a9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label {
+      flex: 1;
+      text-align: right;
+      margin-right: 12px;
+      font-weight: 600;
+    }
+
+    input {
+      flex: 2;
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      font-size: 16px;
+      text-align: center;
+      background: rgba(255,255,255,0.8);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(118, 75, 162, 0.5);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      min-height: 24px;
+    }
+
+    .success { color: #2e7d32; }
+    .error   { color: #c62828; }
+    .warn    { color: #ef6c00; }
+
+    footer {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-size: 14px;
+      color: rgba(0,0,0,0.6);
+      font-style: italic;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💎 Giải phương trình bậc 2 💎</h1>
+
+    <form onsubmit="event.preventDefault(); solve();">
+      <div class="input-group">
+        <label for="a">Hệ số a:</label>
+        <input type="number" id="a" placeholder="Nhập a">
+      </div>
+      <div class="input-group">
+        <label for="b">Hệ số b:</label>
+        <input type="number" id="b" placeholder="Nhập b">
+      </div>
+      <div class="input-group">
+        <label for="c">Hệ số c:</label>
+        <input type="number" id="c" placeholder="Nhập c">
+      </div>
+      <button type="submit">🔍 Giải ngay</button>
+    </form>
+
+    <p id="result"></p>
+  </div>
+
+  <footer>By: Duong Thi Ly</footer>
+
+  <script>
+    function solve() {
+      let a = +document.getElementById('a').value;
+      let b = +document.getElementById('b').value;
+      let c = +document.getElementById('c').value;
+      let result = document.getElementById("result");
+      result.className = "";
+
+      if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        result.innerText = "⚠️ Vui lòng nhập đủ a, b, c.";
+        result.classList.add("warn");
+        return;
+      }
+
+      if (a === 0) {
+        if (b === 0) {
+          result.innerText = (c === 0) ? "♾️ Vô số nghiệm" : "❌ Vô nghiệm";
+          result.classList.add("error");
+        } else {
+          result.innerText = "📌 Nghiệm: x = " + (-c / b);
+          result.classList.add("success");
+        }
+        return;
+      }
+
+      let delta = b*b - 4*a*c;
+
+      if (delta < 0) {
+        result.innerText = "❌ Phương trình vô nghiệm thực";
+        result.classList.add("error");
+      } else if (delta === 0) {
+        result.innerText = "📌 Nghiệm kép: x = " + (-b / (2*a));
+        result.classList.add("success");
+      } else {
+        let sqrtD = Math.sqrt(delta);
+        let x1 = (-b + sqrtD) / (2*a);
+        let x2 = (-b - sqrtD) / (2*a);
+        result.innerText = `✅ Hai nghiệm: x₁ = ${x1}, x₂ = ${x2}`;
+        result.classList.add("success");
+      }
+    }
+  </script>
+</body>
+</html>
+```
