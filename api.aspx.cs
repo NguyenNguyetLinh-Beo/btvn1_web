@@ -1,62 +1,46 @@
-﻿using System;
+﻿// api.aspx.cs
+using System;
 using System.Web;
+using System.Web.UI;
+using QuadraticSolverLib;
 
-public partial class api : System.Web.UI.Page
+public partial class api : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        // ✅ Lấy giá trị a, b, c từ query string
-        string aStr = Request["a"];
-        string bStr = Request["b"];
-        string cStr = Request["c"];
+        // Lấy params từ querystring (GET). Nếu muốn POST, xử lý Request.Form.
+        string sa = Request.QueryString["a"];
+        string sb = Request.QueryString["b"];
+        string sc = Request.QueryString["c"];
 
-        // ✅ Kiểm tra đầu vào hợp lệ
-        if (string.IsNullOrEmpty(aStr) || string.IsNullOrEmpty(bStr) || string.IsNullOrEmpty(cStr))
-        {
-            Response.ContentType = "application/json";
-            Response.Write("{\"ketqua\":\"⚠️ Thiếu tham số a, b hoặc c.\"}");
-            Response.End();
-            return;
-        }
+        double a = 0.0, b = 0.0, c = 0.0;
+        bool okA = Double.TryParse(sa, out a);
+        bool okB = Double.TryParse(sb, out b);
+        bool okC = Double.TryParse(sc, out c);
 
-        double a, b, c;
-
-        if (!double.TryParse(aStr, out a) || !double.TryParse(bStr, out b) || !double.TryParse(cStr, out c))
-        {
-            Response.ContentType = "application/json";
-            Response.Write("{\"ketqua\":\"⚠️ Tham số không hợp lệ. Vui lòng nhập số.\"}");
-            Response.End();
-            return;
-        }
-
-        // ✅ Tính toán nghiệm phương trình
-        string ketqua;
-        if (a == 0)
-        {
-            if (b == 0)
-                ketqua = (c == 0) ? "Phương trình vô số nghiệm." : "Phương trình vô nghiệm.";
-            else
-                ketqua = string.Format("Phương trình bậc nhất có nghiệm: x = {-c / b}");
-        }
-        else
-        {
-            double delta = b * b - 4 * a * c;
-
-            if (delta < 0)
-                ketqua = "Phương trình vô nghiệm.";
-            else if (delta == 0)
-                ketqua =string.Format ("Phương trình có nghiệm kép: x = {-b / (2 * a)}");
-            else
-            {
-                double x1 = (-b + Math.Sqrt(delta)) / (2 * a);
-                double x2 = (-b - Math.Sqrt(delta)) / (2 * a);
-                ketqua = string.Format("Phương trình có 2 nghiệm: x1 = {0}, x2 = {1}", x1, x2);
-            }
-        }
-
-        // ✅ Trả kết quả JSON về trình duyệt
         Response.ContentType = "application/json";
-        Response.Write("{\"ketqua\":\"" + ketqua.Replace("\"", "\\\"") + "\"}");
+        Response.Charset = "utf-8";
+
+        if (!okA || !okB || !okC)
+        {
+            string badJson = "{\"error\":\"Tham số không hợp lệ, vui lòng gửi a,b,c là số thực.\"}";
+            Response.Write(badJson);
+            Response.End();
+            return;
+        }
+
+        QuadraticSolver solver = new QuadraticSolver();
+        solver.A = a;
+        solver.B = b;
+        solver.C = c;
+        string ketqua = solver.Solve();
+
+        // Trả JSON đơn giản (manual)
+        // escape quotes and newlines
+        string escaped = ketqua.Replace("\\", "\\\\").Replace("\r", "\\r").Replace("\n", "\\n").Replace("\"", "\\\"");
+        string json = "{\"ketqua\":\"" + escaped + "\"}";
+
+        Response.Write(json);
         Response.End();
     }
 }
